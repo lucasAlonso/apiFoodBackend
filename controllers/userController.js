@@ -5,8 +5,7 @@ const jwt = require('jsonwebtoken');
 
 let postUser = async function (req, res) {
     const newUser = req.body;
-    req.body.userDbTaken = 'false';
-    userDbCheck(req, res);
+    await userDbCheck(req, res);
     console.log(req.body.userDbTaken);
     if (!req.body.userDbTaken) {
         try {
