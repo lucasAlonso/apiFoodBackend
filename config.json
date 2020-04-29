@@ -1,0 +1,9 @@
+{
+    "mysqlurl": "mysql://root:passwordMuySecreto69-@localhost:3306/delilah",
+    "port": 3001,
+    "firma": "dormirLaSiestaHaceBien",
+    "queryPostUser": "INSERT INTO usuarios (usuario,nombre,mail,tel,direccionEnvio,urlDireccionEnvio,hysPass,salt,activo,securityLevel ) values(:usuario,:nombre,:mail,:tel,:direccionEnvio,:urlDireccionEnvio,:hysPass,:salt,:activo,:securityLevel)",
+    "queryDbCheck": "SELECT usuario FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
+    "queryDbUserId": "SELECT id FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
+    "queryDbUser": "SELECT id FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario"
+}
