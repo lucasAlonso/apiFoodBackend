@@ -35,7 +35,7 @@ const quitIfUserExist = function returnErrorIfUserExistInDb(req, res) {
 };
 const loginUser = async function loginUserAndReturnJWToken(req, res) {
     if (req.isPasswordCorrect) {
-        let tokenSigned = signToken(req.userFromDb);
+        let tokenSigned = { token: signToken(req.userFromDb) };
         res.status(202).json(tokenSigned);
     } else {
         res.status(404).send('Password Incorrecto');
