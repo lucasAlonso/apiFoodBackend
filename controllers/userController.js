@@ -2,11 +2,11 @@ const config = require('../config.json');
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(config.mysqlurl);
 const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
 
 let postUser = async function (req, res) {
     const newUser = req.body;
     await userDbCheck(req, res);
-    console.log(req.body.userDbTaken);
     if (!req.body.userDbTaken) {
         try {
             await sequelize.query(config.queryPostUser, { replacements: newUser });
@@ -20,7 +20,7 @@ let postUser = async function (req, res) {
 
 const userDbCheck = async function checkIfUserExistInDb(req, res) {
     const userReq = req.body;
-    let checked = await sequelize.query(config.queryDbCheck, {
+    let checked = await sequelize.query(config.queryDbUser, {
         replacements: userReq,
         type: Sequelize.QueryTypes.SELECT,
         raw: true,
@@ -33,7 +33,25 @@ const quitIfUserExist = function returnErrorIfUserExistInDb(req, res) {
         res.status(401).send('Usuario existe en DB');
     }
 };
+const loginUser = async function loginUserAndReturnJWToken(req, res) {
+    if (req.isPasswordCorrect) {
+        let tokenSigned = signToken(req.userFromDb);
+        res.status(202).json(tokenSigned);
+    } else {
+        res.status(404).send('Password Incorrecto');
+    }
+};
+
+const signToken = function signTokenUsingJsonWebToken({ id, usuario, administ }) {
+    let contenido = {
+        id: id,
+        usuario: usuario,
+        administ: administ[0],
+    };
+    return jwt.sign(contenido, config.firma);
+};
 
 module.exports = {
     postUser,
+    loginUser,
 };

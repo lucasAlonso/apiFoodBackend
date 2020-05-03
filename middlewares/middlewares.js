@@ -23,20 +23,36 @@ const sha512 = function (password, salt) {
 };
 
 const saltHashPassword = function encryptPassordWithHashAndSaltMethod(req, res, next) {
-    var salt = genRandomString(16);
+    let salt = genRandomString(16);
     let passwordData = sha512(req.body.plainPass, salt);
     req.body.hysPass = passwordData.passwordHash;
     req.body.salt = passwordData.salt;
     req.body.plainPass = null;
     next();
 };
-const userPostValidate = function userJsonFromRequestValidation(req, res, next) {
-    next();
+const postLoginCheck = async function (req, res, next) {
+    let userFromDb = await sequelize.query(config.queryDbUser, {
+        replacements: req.body,
+        type: Sequelize.QueryTypes.SELECT,
+        raw: true,
+    });
+    if (userFromDb) {
+        req.userFromDb = userFromDb[0];
+        req.isPasswordCorrect = validatePassword(req.userFromDb.hysPass, req.userFromDb.salt, req.body.plainPass);
+        next();
+    } else {
+        res.status(401).send('Usuario no existe en DB');
+    }
+};
+const validatePassword = function checkIfPasswordCorrect(savedHash, savedSalt, passwordAttempt) {
+    console.log(passwordAttempt, savedHash, savedSalt);
+    let passwordData = sha512(passwordAttempt, savedSalt);
+    return savedHash == passwordData.passwordHash;
 };
 
 module.exports = {
     saltHashPassword,
-    userPostValidate,
+    postLoginCheck,
 };
 
 //https://www.freecodecamp.org/news/handling-front-end-encryption-using-openpgp-3b0462bf5876/ para encriptar de front to end
