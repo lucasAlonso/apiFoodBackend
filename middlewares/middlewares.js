@@ -5,6 +5,7 @@ const sequelize = new Sequelize(config.mysqlurl, {
     raw: false,
 });
 
+const jwt = require('jsonwebtoken');
 const genRandomString = function (length) {
     return crypto
         .randomBytes(Math.ceil(length / 2))
@@ -31,11 +32,13 @@ const saltHashPassword = function encryptPassordWithHashAndSaltMethod(req, res, 
     next();
 };
 const postLoginCheck = async function (req, res, next) {
+    console.log(req.body.usuario);
     let userFromDb = await sequelize.query(config.queryDbUser, {
         replacements: req.body,
         type: Sequelize.QueryTypes.SELECT,
         raw: true,
     });
+
     if (userFromDb) {
         req.userFromDb = userFromDb[0];
         req.isPasswordCorrect = validatePassword(req.userFromDb.hysPass, req.userFromDb.salt, req.body.plainPass);
@@ -49,10 +52,19 @@ const validatePassword = function checkIfPasswordCorrect(savedHash, savedSalt, p
     let passwordData = sha512(passwordAttempt, savedSalt);
     return savedHash == passwordData.passwordHash;
 };
-
+const isAdmin = function validateIfAnUserIsAdmin(req, res, next) {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodificado = jwt.verify(token, config.firma);
+    console.log(decodificado);
+    console.log(token);
+    if (decodificado.administ) {
+        next();
+    } else res.status(403).send('User dont have permission');
+};
 module.exports = {
     saltHashPassword,
     postLoginCheck,
+    isAdmin,
 };
 
 //https://www.freecodecamp.org/news/handling-front-end-encryption-using-openpgp-3b0462bf5876/ para encriptar de front to end

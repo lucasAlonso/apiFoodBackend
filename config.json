@@ -3,7 +3,6 @@
     "port": 3001,
     "firma": "dormirLaSiestaHaceBien",
     "queryPostUser": "INSERT INTO usuarios (usuario,nombre,mail,tel,direccionEnvio,urlDireccionEnvio,hysPass,salt,activo,administ ) values(:usuario,:nombre,:mail,:tel,:direccionEnvio,:urlDireccionEnvio,:hysPass,:salt,:activo,:administ)",
-    "queryDbUSer": "SELECT usuario FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
-    "queryDbUserId": "SELECT id FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
-    "queryDbUser": "SELECT * FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario"
+    "queryDbUser": "SELECT * FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
+    "queryDbUserId": "SELECT id FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario"
 }
