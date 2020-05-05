@@ -1,15 +1,14 @@
 const config = require('../config.json');
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(config.mysqlurl);
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const db = require('../dbConect');
 
 let postUser = async function (req, res) {
     const newUser = req.body;
     await userDbCheck(req, res);
     if (!req.body.userDbTaken) {
         try {
-            await sequelize.query(config.queryPostUser, { replacements: newUser });
+            await db.query(config.queryPostUser, { replacements: newUser });
             res.status(201).send('user Created');
         } catch (error) {
             console.log('Db Data error', error[0]);
@@ -20,9 +19,9 @@ let postUser = async function (req, res) {
 
 const userDbCheck = async function checkIfUserExistInDb(req, res) {
     const userReq = req.body;
-    let checked = await sequelize.query(config.queryDbUser, {
+    let checked = await db.query(config.queryDbUser, {
         replacements: userReq,
-        type: Sequelize.QueryTypes.SELECT,
+        type: db.QueryTypes.SELECT,
         raw: true,
     });
     req.body.userDbTaken = checked[0] ? true : false;

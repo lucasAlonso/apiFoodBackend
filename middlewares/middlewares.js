@@ -1,9 +1,6 @@
 const crypto = require('crypto');
 const config = require('../config.json');
-const Sequelize = require('sequelize');
-const sequelize = new Sequelize(config.mysqlurl, {
-    raw: false,
-});
+const db = require('../dbConect');
 
 const jwt = require('jsonwebtoken');
 const genRandomString = function (length) {
@@ -32,13 +29,11 @@ const saltHashPassword = function encryptPassordWithHashAndSaltMethod(req, res, 
     next();
 };
 const postLoginCheck = async function (req, res, next) {
-    console.log(req.body.usuario);
-    let userFromDb = await sequelize.query(config.queryDbUser, {
+    let userFromDb = await db.query(config.queryDbUser, {
         replacements: req.body,
-        type: Sequelize.QueryTypes.SELECT,
+        type: db.QueryTypes.SELECT,
         raw: true,
     });
-
     if (userFromDb) {
         req.userFromDb = userFromDb[0];
         req.isPasswordCorrect = validatePassword(req.userFromDb.hysPass, req.userFromDb.salt, req.body.plainPass);
@@ -47,24 +42,36 @@ const postLoginCheck = async function (req, res, next) {
         res.status(401).send('Usuario no existe en DB');
     }
 };
+
 const validatePassword = function checkIfPasswordCorrect(savedHash, savedSalt, passwordAttempt) {
-    console.log(passwordAttempt, savedHash, savedSalt);
     let passwordData = sha512(passwordAttempt, savedSalt);
     return savedHash == passwordData.passwordHash;
 };
 const isAdmin = function validateIfAnUserIsAdmin(req, res, next) {
-    const token = req.headers.authorization.split(' ')[1];
-    const decodificado = jwt.verify(token, config.firma);
-    console.log(decodificado);
-    console.log(token);
+    const decodificado = req.decodedToken;
     if (decodificado.administ) {
         next();
     } else res.status(403).send('User dont have permission');
 };
+
+const validateLoginCredentials = function (req, res, next) {
+    const decodificado = validateToken(req.headers.authorization.split(' ')[1]);
+    if (decodificado) {
+        req.decodedToken = decodificado;
+        next();
+    } else {
+        return res.status(403).send('Token invalid');
+    }
+};
+
+const validateToken = function validateAndReturnDecodedToken(token) {
+    const decodificado = jwt.verify(token, config.firma);
+    return decodificado;
+};
+
 module.exports = {
     saltHashPassword,
     postLoginCheck,
     isAdmin,
+    validateLoginCredentials,
 };
-
-//https://www.freecodecamp.org/news/handling-front-end-encryption-using-openpgp-3b0462bf5876/ para encriptar de front to end
