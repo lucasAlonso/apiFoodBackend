@@ -23,6 +23,67 @@ const productDbCheck = async function checkIfProductExistInDb(product) {
     let check = dbCheck[0] ? true : false;
     return check;
 };
+const getProduct = async function getProductFromDb(req, res) {
+    const productName = {};
+    productName.nombre = req.body.nombre;
+    try {
+        let product = await productDbGet(productName);
+        if (product) {
+            return res.status(200).json(product);
+        } else {
+            return res.status(404).send('Product does not exist');
+        }
+    } catch (error) {
+        console.log('Db Data error', error[0]);
+        res.status(500).send('check input data');
+    }
+};
+const productDbGet = async function (productName) {
+    let product = await db.query(config.queryProduct, {
+        replacements: productName,
+        type: db.QueryTypes.SELECT,
+        raw: true,
+    });
+    let returnValue = product[0] ? product[0] : false;
+
+    return returnValue;
+};
+
+const updateProduct = async function (req, res) {
+    let productUpdate = req.body;
+    const filteredKeysToUpdate = filterKeys(productUpdate);
+    let sqlQuery = createUpdateQuery(filteredKeysToUpdate);
+    try {
+        await db.query(sqlQuery, {
+            replacements: productUpdate,
+            raw: true,
+        });
+        res.status(200).send('Product Updated');
+    } catch (error) {
+        console.log('Db Data error', error[0]);
+        res.status(500).send('check input data');
+    }
+};
+
+const filterKeys = function filterKeysWhitDbTableModel(product) {
+    const keys = Object.keys(product);
+    const keysOfProductDb = ['nombre', 'descripcion', 'precio', 'categoria', 'img_url'];
+    const filteredKeys = keys.filter((value) => keysOfProductDb.includes(value));
+    return filteredKeys;
+};
+
+const createUpdateQuery = function (keysToUpdate) {
+    let sqlQuery = 'UPDATE productos SET ';
+    for (const key in keysToUpdate) {
+        sqlQuery += keysToUpdate[key] + ' = :' + keysToUpdate[key] + ', ';
+    }
+    let sqlQuerySliced = sqlQuery.slice(0, -2);
+    sqlQuerySliced += ' WHERE id = :id;';
+    return sqlQuerySliced;
+};
+
 module.exports = {
     postProducts,
+    getProduct,
+    updateProduct,
 };

@@ -1,9 +1,9 @@
 const express = require('express');
-const UserController = require('../controllers/userController');
-const Middlewares = require('../middlewares/middlewares');
+const userController = require('../controllers/userController');
+const middlewares = require('../middlewares/middlewares');
 const api = express.Router();
 
-api.post('/', Middlewares.saltHashPassword, UserController.postUser);
-api.post('/login', Middlewares.postLoginCheck, UserController.loginUser);
+api.post('/', middlewares.saltHashPassword, userController.postUser);
+api.post('/login', middlewares.postLoginCheck, userController.loginUser);
 
 module.exports = api;

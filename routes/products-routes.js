@@ -1,8 +1,10 @@
 const express = require('express');
-const ProductsController = require('../controllers/productsController');
-const Middlewares = require('../middlewares/middlewares');
+const productsController = require('../controllers/productsController');
+const middlewares = require('../middlewares/middlewares');
 const api = express.Router();
 
-api.post('/', Middlewares.validateLoginCredentials, Middlewares.isAdmin, ProductsController.postProducts);
+api.post('/', middlewares.validateLoginCredentials, middlewares.isAdmin, productsController.postProducts);
+api.get('/', middlewares.validateLoginCredentials, productsController.getProduct);
+api.patch('/', middlewares.validateLoginCredentials, middlewares.isAdmin, productsController.updateProduct);
 
 module.exports = api;

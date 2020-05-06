@@ -28,6 +28,7 @@ const saltHashPassword = function encryptPassordWithHashAndSaltMethod(req, res, 
     req.body.plainPass = null;
     next();
 };
+
 const postLoginCheck = async function (req, res, next) {
     let userFromDb = await db.query(config.queryDbUser, {
         replacements: req.body,
@@ -47,6 +48,7 @@ const validatePassword = function checkIfPasswordCorrect(savedHash, savedSalt, p
     let passwordData = sha512(passwordAttempt, savedSalt);
     return savedHash == passwordData.passwordHash;
 };
+
 const isAdmin = function validateIfAnUserIsAdmin(req, res, next) {
     const decodificado = req.decodedToken;
     if (decodificado.administ) {
@@ -68,7 +70,6 @@ const validateToken = function validateAndReturnDecodedToken(token) {
     const decodificado = jwt.verify(token, config.firma);
     return decodificado;
 };
-
 module.exports = {
     saltHashPassword,
     postLoginCheck,

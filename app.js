@@ -3,8 +3,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
-const config = require('./config.json');
-
 const user_routes = require('./routes/user-routes');
 const products_routes = require('./routes/products-routes');
 
