@@ -20,7 +20,8 @@ const productDbCheck = async function checkIfProductExistInDb(product) {
         type: db.QueryTypes.SELECT,
         raw: true,
     });
-    let check = dbCheck[0] ? true : false;
+    console.log(dbCheck[0].activo);
+    let check = dbCheck[0] ? (dbCheck[0].activo ? true : false) : false;
     return check;
 };
 const getProduct = async function getProductFromDb(req, res) {
@@ -29,7 +30,11 @@ const getProduct = async function getProductFromDb(req, res) {
     try {
         let product = await productDbGet(productName);
         if (product) {
-            return res.status(200).json(product);
+            if (product === 'inactive') {
+                return res.status(404).send('Product Erased from DB');
+            } else {
+                return res.status(200).json(product);
+            }
         } else {
             return res.status(404).send('Product does not exist');
         }
@@ -44,7 +49,8 @@ const productDbGet = async function (productName) {
         type: db.QueryTypes.SELECT,
         raw: true,
     });
-    let returnValue = product[0] ? product[0] : false;
+    console.log(product[0]);
+    let returnValue = product[0] ? (product[0].activo[0] ? product[0] : 'inactive') : false;
 
     return returnValue;
 };
@@ -82,8 +88,22 @@ const createUpdateQuery = function (keysToUpdate) {
     return sqlQuerySliced;
 };
 
+const deleteProduct = async function (req, res) {
+    try {
+        await db.query(config.deleteProduct, {
+            replacements: req.body,
+            raw: true,
+        });
+        res.status(200).send('Product Erased');
+    } catch (error) {
+        console.log('Db Data error', error[0]);
+        res.status(500).send('check input data');
+    }
+};
+
 module.exports = {
     postProducts,
     getProduct,
     updateProduct,
+    deleteProduct,
 };

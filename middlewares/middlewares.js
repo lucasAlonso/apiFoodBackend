@@ -35,7 +35,7 @@ const postLoginCheck = async function (req, res, next) {
         type: db.QueryTypes.SELECT,
         raw: true,
     });
-    if (userFromDb) {
+    if (typeof userFromDb[0] !== 'undefined') {
         req.userFromDb = userFromDb[0];
         req.isPasswordCorrect = validatePassword(req.userFromDb.hysPass, req.userFromDb.salt, req.body.plainPass);
         next();
