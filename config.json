@@ -7,6 +7,7 @@
     "queryDbUser": "SELECT * FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
     "queryDbUserId": "SELECT id FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
     "queryProduct": "SELECT * FROM delilah.productos WHERE nombre LIKE BINARY :nombre",
+    "queryAllProducts": "SELECT * FROM delilah.productos",
     "queryPostProduct": "INSERT INTO productos (nombre,descripcion,precio,categoria,img_url) values(:nombre,:descripcion,:precio,:categoria,:img_url)",
     "deleteProduct": "UPDATE productos SET activo = 0 WHERE id = :id"
 }

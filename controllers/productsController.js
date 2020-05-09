@@ -14,45 +14,57 @@ let postProducts = async function (req, res) {
         }
     } else res.status(401).send('Product exists');
 };
+
 const productDbCheck = async function checkIfProductExistInDb(product) {
     let dbCheck = await db.query(config.queryProduct, {
         replacements: product,
         type: db.QueryTypes.SELECT,
         raw: true,
     });
-    console.log(dbCheck[0].activo);
     let check = dbCheck[0] ? (dbCheck[0].activo ? true : false) : false;
     return check;
 };
+
 const getProduct = async function getProductFromDb(req, res) {
-    const productName = {};
-    productName.nombre = req.body.nombre;
+    let sqlQuery = getSqlGetQuery(req);
     try {
-        let product = await productDbGet(productName);
-        if (product) {
-            if (product === 'inactive') {
-                return res.status(404).send('Product Erased from DB');
-            } else {
-                return res.status(200).json(product);
-            }
-        } else {
-            return res.status(404).send('Product does not exist');
-        }
+        let product = await productDbGet(req.query, sqlQuery);
+        choseGetResponse(product, res);
     } catch (error) {
         console.log('Db Data error', error[0]);
-        res.status(500).send('check input data');
+        res.status(500).send('Check query data');
     }
 };
-const productDbGet = async function (productName) {
-    let product = await db.query(config.queryProduct, {
+
+const productDbGet = async function (productName, queryDb) {
+    let product = await db.query(queryDb, {
         replacements: productName,
         type: db.QueryTypes.SELECT,
         raw: true,
     });
-    console.log(product[0]);
-    let returnValue = product[0] ? (product[0].activo[0] ? product[0] : 'inactive') : false;
+    if (typeof productName.nombre !== 'undefined') {
+        return product[0] ? (product[0].activo[0] ? product[0] : 'inactive') : false;
+    } else {
+        return product;
+    }
+};
 
-    return returnValue;
+const getSqlGetQuery = function (req) {
+    let sqlQuery = req.query.hasOwnProperty('nombre') ? config.queryProduct : config.queryAllProducts;
+    if (req.query.hasOwnProperty('onlyActivos')) {
+        sqlQuery = req.query.onlyActivos === 'true' ? sqlQuery + ' WHERE activo = 1' : sqlQuery;
+    }
+    return sqlQuery;
+};
+
+const choseGetResponse = function (product, res) {
+    if (product === 'inactive') {
+        return res.status(404).send('Product Erased from DB');
+    } else if (product) {
+        return res.status(200).json(product);
+    } else {
+        return res.status(404).send('Product does not exist');
+    }
 };
 
 const updateProduct = async function (req, res) {
