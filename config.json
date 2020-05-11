@@ -5,6 +5,7 @@
     "firma": "dormirLaSiestaHaceBien",
     "queryPostUser": "INSERT INTO usuarios (usuario,nombre,mail,tel,direccionEnvio,urlDireccionEnvio,hysPass,salt,activo,administ ) values(:usuario,:nombre,:mail,:tel,:direccionEnvio,:urlDireccionEnvio,:hysPass,:salt,:activo,:administ)",
     "queryDbUser": "SELECT * FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
+    "queryAllDbUser": "SELECT id, usuario, nombre, mail,tel, direccionEnvio, urlDireccionEnvio FROM delilah.usuarios",
     "queryDbUserId": "SELECT id FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
     "queryProduct": "SELECT * FROM delilah.productos WHERE nombre LIKE BINARY :nombre",
     "queryAllProducts": "SELECT * FROM delilah.productos",

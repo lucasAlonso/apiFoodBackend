@@ -103,7 +103,7 @@ const createUpdateQuery = function (keysToUpdate) {
 const deleteProduct = async function (req, res) {
     try {
         await db.query(config.deleteProduct, {
-            replacements: req.body,
+            replacements: req.query,
             raw: true,
         });
         res.status(200).send('Product Erased');

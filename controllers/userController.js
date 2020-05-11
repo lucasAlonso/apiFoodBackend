@@ -41,6 +41,24 @@ const loginUser = async function loginUserAndReturnJWToken(req, res) {
     }
 };
 
+const getUser = function (req, res) {
+    const userFromDb = cropUserInfo(req.userFromDb);
+    res.status(200).json(userFromDb);
+};
+
+const getAllUsers = async function (req, res) {
+    try {
+        let users = await db.query(config.queryAllDbUser, {
+            type: db.QueryTypes.SELECT,
+            raw: true,
+        });
+        res.status(200).json(users);
+    } catch (error) {
+        console.log('Db Data error', error[0]);
+        res.status(500).send('check input data');
+    }
+};
+
 const signToken = function signTokenUsingJsonWebToken({ id, usuario, administ }) {
     let contenido = {
         id: id,
@@ -50,7 +68,13 @@ const signToken = function signTokenUsingJsonWebToken({ id, usuario, administ })
     return jwt.sign(contenido, config.firma);
 };
 
+const cropUserInfo = function (user) {
+    const { hysPass, salt, activo, administ, ...newUser } = user;
+    return newUser;
+};
 module.exports = {
     postUser,
     loginUser,
+    getUser,
+    getAllUsers,
 };
