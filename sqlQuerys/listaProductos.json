@@ -1,0 +1,58 @@
+[
+    {
+        "nombre": "Hamburguesa Simple",
+        "descripcion": "Hamburguesa Simple con verduras",
+        "precio": 200,
+        "categoria": "fast food",
+        "img_url": "https://images.unsplash.com/photo-1586816001966-79b736744398?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1350&q=80"
+    },
+    {
+        "nombre": "Hamburguesa Completa",
+        "descripcion": "Hamburguesa Completa con fritas",
+        "precio": 250,
+        "categoria": "fast food",
+        "img_url": "https://image.shutterstock.com/z/stock-photo-hamburguer-394710502.jpg"
+    },
+    {
+        "nombre": "Pizza Muzza",
+        "descripcion": "Pizza de muzzarela",
+        "precio": 450,
+        "categoria": "fast food",
+        "img_url": "https://image.shutterstock.com/z/stock-photo-concept-promotional-flyer-and-poster-for-restaurants-or-pizzerias-template-with-delicious-taste-794244712.jpg"
+    },
+    {
+        "nombre": "Pizza Especial",
+        "descripcion": "Pizza de muzzarela con jamon",
+        "precio": 475,
+        "categoria": "fast food",
+        "img_url": "https://image.shutterstock.com/z/stock-photo-concept-promotional-flyer-and-poster-for-restaurants-or-pizzerias-template-with-delicious-taste-794244712.jpg"
+    },
+    {
+        "nombre": "Pizza Doble Queso",
+        "descripcion": "Pizza de doble queso",
+        "precio": 525,
+        "categoria": "fast food",
+        "img_url": "https://image.shutterstock.com/z/stock-photo-concept-promotional-flyer-and-poster-for-restaurants-or-pizzerias-template-with-delicious-taste-794244712.jpg"
+    },
+    {
+        "nombre": "Milanesa",
+        "descripcion": "Milanesa",
+        "precio": 225,
+        "categoria": "minutas",
+        "img_url": "https://image.shutterstock.com/z/stock-photo-delicious-veal-cutlet-with-mozzarella-cheese-lemon-and-tomato-sauce-milanesa-napolitana-close-up-1055477633.jpg"
+    },
+    {
+        "nombre": "Milanesa con fritas",
+        "descripcion": "Milanesa acompañada de papas fritas",
+        "precio": 325,
+        "categoria": "minutas",
+        "img_url": "https://image.shutterstock.com/z/stock-photo-delicious-veal-cutlet-with-mozzarella-cheese-lemon-and-tomato-sauce-milanesa-napolitana-close-up-1055477633.jpg"
+    },
+    {
+        "nombre": "Gnoquis",
+        "descripcion": "Gnoquis con salsa",
+        "precio": 405,
+        "categoria": "minutas",
+        "img_url": "https://image.shutterstock.com/z/stock-photo-homemade-italian-gnocchi-with-red-sauce-and-cheese-213167974.jpg"
+    }
+]

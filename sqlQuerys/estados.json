@@ -1,0 +1,7 @@
+[
+    { "estado": "nuevo" },
+    { "estado": "confirmado" },
+    { "estado": "preparando" },
+    { "estado": "enviando" },
+    { "estado": "entregado" }
+]

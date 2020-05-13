@@ -3,12 +3,13 @@
     "password": "passwordMuySecreto69-",
     "port": 3001,
     "firma": "dormirLaSiestaHaceBien",
-    "queryPostUser": "INSERT INTO usuarios (usuario,nombre,mail,tel,direccionEnvio,urlDireccionEnvio,hysPass,salt,activo,administ ) values(:usuario,:nombre,:mail,:tel,:direccionEnvio,:urlDireccionEnvio,:hysPass,:salt,:activo,:administ)",
+    "queryPostUser": "INSERT INTO usuarios (usuario,nombre,apellido,mail,tel,direccionEnvio,urlDireccionEnvio,hysPass,salt,activo,administ ) values(:usuario,:nombre,:apellido,:mail,:tel,:direccionEnvio,:urlDireccionEnvio,:hysPass,:salt,:activo,:administ)",
     "queryDbUser": "SELECT * FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
-    "queryAllDbUser": "SELECT id, usuario, nombre, mail,tel, direccionEnvio, urlDireccionEnvio FROM delilah.usuarios",
+    "queryAllDbUser": "SELECT id, usuario, nombre, apellido, mail,tel, direccionEnvio, urlDireccionEnvio FROM delilah.usuarios",
     "queryDbUserId": "SELECT id FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
     "queryProduct": "SELECT * FROM delilah.productos WHERE nombre LIKE BINARY :nombre",
     "queryAllProducts": "SELECT * FROM delilah.productos",
     "queryPostProduct": "INSERT INTO productos (nombre,descripcion,precio,categoria,img_url) values(:nombre,:descripcion,:precio,:categoria,:img_url)",
-    "deleteProduct": "UPDATE productos SET activo = 0 WHERE id = :id"
+    "deleteProduct": "UPDATE productos SET activo = 0 WHERE id = :id",
+    "queryPostOrder": "INSERT INTO pedidos (fechayhora,idEstado,idFormaPago,idUsuario,precioTotal) values(NOW(),:idEstado,:idFormaPago,:idUsuario,:precioTotal)"
 }

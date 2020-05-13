@@ -1,0 +1,4 @@
+[
+    { "descrip": "efectivo", "alicuota": 1 },
+    { "descrip": "tarjeta", "alicuota": 1.3 }
+]
