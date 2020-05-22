@@ -12,10 +12,10 @@ db = new Sequelize("delilah", config.user, config.password, {
     logging: false,
 });
 
-let postUser = async function (newUser) {
+let postUser = async function (newUser, administ) {
     saltHashPassword(newUser);
     newUser.activo = 1;
-    newUser.administ = 0;
+    newUser.administ = administ;
     try {
         await db.query(config.queryPostUser, { replacements: newUser });
     } catch (error) {
@@ -74,17 +74,20 @@ const saltHashPassword = function encryptPassordWithHashAndSaltMethod(newUser) {
     newUser.salt = passwordData.salt;
     newUser.plainPass = null;
 };
+const startDb = async function () {
+    for (let index = 0; index < estados.length; index++) {
+        await postEstados(estados[index]);
+    }
+    for (let index = 0; index < formaPago.length; index++) {
+        await postFormaPago(formaPago[index]);
+    }
+    await postUser(userList[0], 1);
+    for (let index = 1; index < userList.length; index++) {
+        await postUser(userList[index], 0);
+    }
+    for (let index = 0; index < productList.length; index++) {
+        await postProducts(productList[index]);
+    }
+};
 
-userList.forEach((user) => {
-    postUser(user);
-});
-
-productList.forEach((product) => {
-    postProducts(product);
-});
-estados.forEach((estado) => {
-    postEstados(estado);
-});
-formaPago.forEach((formaPago) => {
-    postFormaPago(formaPago);
-});
+startDb();

@@ -5,7 +5,7 @@ const api = express.Router();
 
 api.post("/", middlewares.saltHashPassword, userController.postUser);
 api.post("/login", middlewares.postLoginCheck, userController.loginUser);
-api.get("/", middlewares.postLoginCheck, userController.getUser);
+api.get("/", middlewares.validateLoginCredentials, userController.getUser);
 api.get("/all", middlewares.validateLoginCredentials, middlewares.isAdmin, userController.getAllUsers);
 
 module.exports = api;

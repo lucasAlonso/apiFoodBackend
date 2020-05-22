@@ -50,6 +50,34 @@ const postOrderDetail = async function (orderDetail) {
         return false;
     }
 };
+
+const getAllOrders = async function (req, res) {
+    try {
+        let ordersArray = await db.query(config.queryGetAllOrders);
+        res.json(ordersArray);
+    } catch (error) {
+        console.log("Db Data error", error[0]);
+        res.status(500).send("check input data");
+    }
+    let ordersArray = db.query(config.queryGetAllOrders);
+};
+
+const getUserOrders = async function (req, res) {
+    try {
+        let orderTaken = await db.query(config.queryGetUserOrders, {
+            replacements: req.decodedToken,
+            type: db.QueryTypes.SELECT,
+            raw: true,
+        });
+        res.json(orderTaken);
+    } catch (error) {
+        console.log("Db Data error", error[0]);
+        res.status(500).send("check input data");
+    }
+};
+
 module.exports = {
     postOrder,
+    getAllOrders,
+    getUserOrders,
 };

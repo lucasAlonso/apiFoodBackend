@@ -14,5 +14,7 @@
     "deleteProduct": "UPDATE productos SET activo = 0 WHERE id = :id",
     "queryPostOrder": "INSERT INTO pedidos (fechayhora,idEstado,idFormaPago,idUsuario) values(NOW(),:idEstado,:idFormaPago,:idUsuario)",
     "queryPostAddOrderTotal": "UPDATE pedidos SET precioTotal = :precioTotal WHERE id = :id ",
-    "queryPostOrderDetail": "INSERT INTO detalle_pedidos (idPedido,idProducto,cantProductos,valorUnitario,valorTotal) values(:idPedido,:idProducto,:cantProductos,:valorUnitario,:valorTotal)"
+    "queryPostOrderDetail": "INSERT INTO detalle_pedidos (idPedido,idProducto,cantProductos,valorUnitario,valorTotal) values(:idPedido,:idProducto,:cantProductos,:valorUnitario,:valorTotal)",
+    "queryGetAllOrders": "SELECT pedidos.id, idUsuario,usuario, precioTotal, estado, descrip, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id",
+    "queryGetUserOrders": "SELECT * FROM pedidos WHERE idUsuario = :id"
 }

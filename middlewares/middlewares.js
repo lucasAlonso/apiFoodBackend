@@ -1,19 +1,19 @@
-const crypto = require('crypto');
-const config = require('../config.json');
-const db = require('../dbConect');
+const crypto = require("crypto");
+const config = require("../config.json");
+const db = require("../dbConect");
 
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const genRandomString = function (length) {
     return crypto
         .randomBytes(Math.ceil(length / 2))
-        .toString('hex')
+        .toString("hex")
         .slice(0, length);
 };
 
 const sha512 = function (password, salt) {
-    var hash = crypto.createHmac('sha512', salt);
+    var hash = crypto.createHmac("sha512", salt);
     hash.update(password);
-    var value = hash.digest('hex');
+    var value = hash.digest("hex");
     return {
         salt: salt,
         passwordHash: value,
@@ -35,12 +35,12 @@ const postLoginCheck = async function (req, res, next) {
         type: db.QueryTypes.SELECT,
         raw: true,
     });
-    if (typeof userFromDb[0] !== 'undefined') {
+    if (typeof userFromDb[0] !== "undefined") {
         req.userFromDb = userFromDb[0];
-        req.isPasswordCorrect = validatePassword(req.userFromDb.hysPass, req.userFromDb.salt, req.body.plainPass);
+        req.isPasswordCorrect = validatePassword(req.userFromDb.hysPass, req.userFromDb.salt, req.body.password);
         next();
     } else {
-        res.status(401).send('Usuario no existe en DB');
+        res.status(401).send("Usuario no existe en DB");
     }
 };
 
@@ -53,16 +53,16 @@ const isAdmin = function validateIfAnUserIsAdmin(req, res, next) {
     const decodificado = req.decodedToken;
     if (decodificado.administ) {
         next();
-    } else res.status(403).send('User dont have permission');
+    } else res.status(403).send("User dont have permission");
 };
 
 const validateLoginCredentials = function (req, res, next) {
-    const decodificado = validateToken(req.headers.authorization.split(' ')[1]);
+    const decodificado = validateToken(req.headers.authorization.split(" ")[1]);
     if (decodificado) {
         req.decodedToken = decodificado;
         next();
     } else {
-        return res.status(403).send('Token invalid');
+        return res.status(403).send("Token invalid");
     }
 };
 
