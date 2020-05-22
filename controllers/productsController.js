@@ -1,7 +1,7 @@
 const config = require("../config.json");
 const db = require("../dbConect");
 
-let postProducts = async function(req, res) {
+let postProducts = async function (req, res) {
     const newProduct = req.body;
     let productExist = await productDbCheck(newProduct);
     if (!productExist) {
@@ -19,7 +19,7 @@ const productDbCheck = async function checkIfProductExistInDb(product) {
     let dbCheck = await db.query(config.queryProduct, {
         replacements: product,
         type: db.QueryTypes.SELECT,
-        raw: true
+        raw: true,
     });
     let check = dbCheck[0] ? (dbCheck[0].activo ? true : false) : false;
     return check;
@@ -27,8 +27,9 @@ const productDbCheck = async function checkIfProductExistInDb(product) {
 
 const getProduct = async function getProductFromDb(req, res) {
     let sqlQuery = getSqlGetQuery(req);
+    let isOneProduct = typeof req.query.nombre === "undefined" ? false : true;
     try {
-        let product = await productDbGet(req.query, sqlQuery);
+        let product = await productDbGet(req.query, sqlQuery, isOneProduct);
         choseGetResponse(product, res);
     } catch (error) {
         console.log("Db Data error", error[0]);
@@ -36,20 +37,20 @@ const getProduct = async function getProductFromDb(req, res) {
     }
 };
 
-const productDbGet = async function(productName, queryDb) {
+const productDbGet = async function (productInfo, queryDb, isOneProduct) {
     let product = await db.query(queryDb, {
-        replacements: productName,
+        replacements: productInfo,
         type: db.QueryTypes.SELECT,
-        raw: true
+        raw: true,
     });
-    if (typeof productName.nombre !== "undefined") {
+    if (isOneProduct) {
         return product[0] ? (product[0].activo[0] ? product[0] : "inactive") : false;
     } else {
         return product;
     }
 };
 
-const getSqlGetQuery = function(req) {
+const getSqlGetQuery = function (req) {
     let sqlQuery = req.query.hasOwnProperty("nombre") ? config.queryProduct : config.queryAllProducts;
     if (req.query.hasOwnProperty("onlyActivos")) {
         sqlQuery = req.query.onlyActivos === "true" ? sqlQuery + " WHERE activo = 1" : sqlQuery;
@@ -57,7 +58,7 @@ const getSqlGetQuery = function(req) {
     return sqlQuery;
 };
 
-const choseGetResponse = function(product, res) {
+const choseGetResponse = function (product, res) {
     if (product === "inactive") {
         return res.status(404).send("Product Erased from DB");
     } else if (product) {
@@ -67,14 +68,14 @@ const choseGetResponse = function(product, res) {
     }
 };
 
-const updateProduct = async function(req, res) {
+const updateProduct = async function (req, res) {
     let productUpdate = req.body;
     const filteredKeysToUpdate = filterKeys(productUpdate);
     let sqlQuery = createUpdateQuery(filteredKeysToUpdate);
     try {
         await db.query(sqlQuery, {
             replacements: productUpdate,
-            raw: true
+            raw: true,
         });
         res.status(200).send("Product Updated");
     } catch (error) {
@@ -86,11 +87,11 @@ const updateProduct = async function(req, res) {
 const filterKeys = function filterKeysWhitDbTableModel(product) {
     const keys = Object.keys(product);
     const keysOfProductDb = ["nombre", "descripcion", "precio", "categoria", "img_url"];
-    const filteredKeys = keys.filter(value => keysOfProductDb.includes(value));
+    const filteredKeys = keys.filter((value) => keysOfProductDb.includes(value));
     return filteredKeys;
 };
 
-const createUpdateQuery = function(keysToUpdate) {
+const createUpdateQuery = function (keysToUpdate) {
     let sqlQuery = "UPDATE productos SET ";
     for (const key in keysToUpdate) {
         sqlQuery += keysToUpdate[key] + " = :" + keysToUpdate[key] + ", ";
@@ -100,11 +101,11 @@ const createUpdateQuery = function(keysToUpdate) {
     return sqlQuerySliced;
 };
 
-const deleteProduct = async function(req, res) {
+const deleteProduct = async function (req, res) {
     try {
         await db.query(config.deleteProduct, {
             replacements: req.query,
-            raw: true
+            raw: true,
         });
         res.status(200).send("Product Erased");
     } catch (error) {
@@ -117,5 +118,6 @@ module.exports = {
     postProducts,
     getProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    productDbGet,
 };

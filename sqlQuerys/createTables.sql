@@ -1,8 +1,11 @@
+show databases;
+create database delilah;
 USE delilah;
 CREATE TABLE usuarios(
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     usuario VARCHAR (60) UNIQUE NULL,
     nombre VARCHAR (60) NOT NULL,
+    apellido VARCHAR (60) NOT NULL,
     mail VARCHAR (60) NOT NULL,
     tel VARCHAR (60) NOT NULL,
     direccionEnvio VARCHAR (60) NOT NULL,
@@ -24,7 +27,8 @@ CREATE TABLE productos (
     descripcion VARCHAR(200) NOT NULL,
     precio DECIMAL(7 , 2 ) UNSIGNED NOT NULL,
     categoria VARCHAR(60),
-    img_url VARCHAR(160)
+    img_url VARCHAR(160),
+    activo  BIT NOT NULL DEFAULT 1
 );
 CREATE TABLE formaPago(
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -35,11 +39,10 @@ CREATE TABLE formaPago(
 CREATE TABLE pedidos(
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     fechayhora DATETIME NOT NULL,
-    idPedido INT NOT NULL,
     idEstado INT NOT NULL,
     idFormaPago INT NOT NULL,
     idUsuario INT NOT NULL, 
-	precioTotal DECIMAL(7,2) UNSIGNED NOT NULL,
+	precioTotal DECIMAL(7,2) UNSIGNED,
     CONSTRAINT fk_pedidos_usuario_usuarioId
 		FOREIGN KEY (idUsuario)
 		REFERENCES usuarios (id),
@@ -65,6 +68,3 @@ CREATE TABLE detalle_pedidos(
 		FOREIGN KEY (idProducto)
 		REFERENCES productos (id)
 );
-
-  
-

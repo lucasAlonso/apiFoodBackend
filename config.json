@@ -9,7 +9,10 @@
     "queryDbUserId": "SELECT id FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
     "queryProduct": "SELECT * FROM delilah.productos WHERE nombre LIKE BINARY :nombre",
     "queryAllProducts": "SELECT * FROM delilah.productos",
+    "queryProductById": "SELECT * FROM delilah.productos WHERE id LIKE BINARY :idProducto AND activo = 1",
     "queryPostProduct": "INSERT INTO productos (nombre,descripcion,precio,categoria,img_url) values(:nombre,:descripcion,:precio,:categoria,:img_url)",
     "deleteProduct": "UPDATE productos SET activo = 0 WHERE id = :id",
-    "queryPostOrder": "INSERT INTO pedidos (fechayhora,idEstado,idFormaPago,idUsuario,precioTotal) values(NOW(),:idEstado,:idFormaPago,:idUsuario,:precioTotal)"
+    "queryPostOrder": "INSERT INTO pedidos (fechayhora,idEstado,idFormaPago,idUsuario) values(NOW(),:idEstado,:idFormaPago,:idUsuario)",
+    "queryPostAddOrderTotal": "UPDATE pedidos SET precioTotal = :precioTotal WHERE id = :id ",
+    "queryPostOrderDetail": "INSERT INTO detalle_pedidos (idPedido,idProducto,cantProductos,valorUnitario,valorTotal) values(:idPedido,:idProducto,:cantProductos,:valorUnitario,:valorTotal)"
 }
