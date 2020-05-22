@@ -4,6 +4,7 @@ const { productDbGet } = require("./productsController");
 
 const postOrder = async function createAndPostOrderInDb(req, res) {
     const newOrder = req.body;
+    newOrder.idUsuario = req.decodedToken.id;
     let orderReturn = {};
     try {
         orderReturn = await db.query(config.queryPostOrder, { replacements: newOrder });
