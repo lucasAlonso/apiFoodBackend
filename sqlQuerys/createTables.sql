@@ -78,10 +78,10 @@ CREATE TABLE detalle_estados_pedidos(
     CONSTRAINT fk_detalle_estados_pedido_id
 		FOREIGN KEY (idPedido)
 		REFERENCES pedidos (id),
-   CONSTRAINT fk_detalle_estados_estados
+    CONSTRAINT fk_detalle_estados_estados_old
 		FOREIGN KEY (idEstadoOld)
 		REFERENCES estados (id),
-        CONSTRAINT fk_detalle_estados_estados
-		FOREIGN KEY (idEstadoOld)
+	CONSTRAINT fk_detalle_estados_estados_new
+		FOREIGN KEY (idEstadoNew)
 		REFERENCES estados (id)
     );
