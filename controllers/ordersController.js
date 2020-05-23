@@ -14,6 +14,8 @@ const postOrder = async function createAndPostOrderInDb(req, res) {
     }
     newOrder.id = orderReturn[0];
     newOrder.precioTotal = await makeOrderDetail(newOrder, res);
+    let formaPago = await db.query(config.queryGetAlicuota, { replacements: newOrder, type: db.QueryTypes.SELECT });
+    newOrder.precioTotal *= formaPago[0].alicuota;
     try {
         await db.query(config.queryPostAddOrderTotal, { replacements: newOrder });
         res.status(200).send("order taken");
@@ -34,7 +36,6 @@ const makeOrderDetail = async function (newOrder, res) {
         orderDetail.valorUnitario = productDetail.precio;
         orderDetail.valorTotal = orderDetail.valorUnitario * orderDetail.cantProductos;
         orderTotalAmount += orderDetail.valorTotal;
-        console.log(orderTotalAmount, orderDetail.valorTotal, orderDetail.valorUnitario);
         let checkPostOrderStatus = await postOrderDetail(orderDetail);
         if (!checkPostOrderStatus) {
             res.status(500).send("error in Order Detail");
