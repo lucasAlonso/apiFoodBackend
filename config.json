@@ -16,5 +16,13 @@
     "queryPostAddOrderTotal": "UPDATE pedidos SET precioTotal = :precioTotal WHERE id = :id ",
     "queryPostOrderDetail": "INSERT INTO detalle_pedidos (idPedido,idProducto,cantProductos,valorUnitario,valorTotal) values(:idPedido,:idProducto,:cantProductos,:valorUnitario,:valorTotal)",
     "queryGetAllOrders": "SELECT pedidos.id, idUsuario,usuario, precioTotal, estado, descrip, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id",
-    "queryGetUserOrders": "SELECT * FROM pedidos WHERE idUsuario = :id"
+    "queryGetUserOrders": "SELECT * FROM pedidos WHERE idUsuario = :idUsuario",
+    "queryGetUserOrder": "SELECT pedidos.id,usuario, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id WHERE idUsuario = :idUsuario AND pedidos.id=:idPedido",
+    "queryGetUserOrderDetail": "SELECT pr.nombre, dp.cantProductos, dp.valorUnitario, dp.valorTotal, pr.categoria FROM detalle_pedidos dp LEFT JOIN productos pr ON idProducto = pr.id WHERE idPedido = :idPedido",
+    "queryGetOrder": "SELECT pedidos.id,usuario, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id WHERE pedidos.id=:idPedido",
+    "queryGetOrderDetail": "SELECT pr.nombre, dp.cantProductos, dp.valorUnitario, dp.valorTotal, pr.categoria FROM detalle_pedidos dp LEFT JOIN productos pr ON idProducto = pr.id WHERE idPedido = :idPedido",
+    "queryGetOrderEstado": "SELECT idEstado FROM pedidos WHERE id = :idPedido",
+    "queryUpdateOrderStatus": " UPDATE pedidos SET idEstado = :idEstadoNew WHERE id = :idPedido",
+    "queryInsertEstadoDetail": "INSERT INTO detalle_estados_pedidos (idPedido, idEstadoOld, idEstadoNew, fechayhora) values(:idPedido,:idEstadoOld,:idEstadoNew, NOW())",
+    "queryGetOrderEstadoDetail": "SELECT es.estado, dep.fechayhora FROM detalle_estados_pedidos dep LEFT JOIN estados es ON idEstadoNew = es.id WHERE dep.idPedido = :idPedido"
 }

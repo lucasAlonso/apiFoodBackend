@@ -68,3 +68,20 @@ CREATE TABLE detalle_pedidos(
 		FOREIGN KEY (idProducto)
 		REFERENCES productos (id)
 );
+
+CREATE TABLE detalle_estados_pedidos(
+	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    idPedido INT NOT NULL,
+    idEstadoOld INT NOT NULL,
+    idEstadoNew INT NOT NULL,
+    fechayhora DATETIME NOT NULL,
+    CONSTRAINT fk_detalle_estados_pedido_id
+		FOREIGN KEY (idPedido)
+		REFERENCES pedidos (id),
+   CONSTRAINT fk_detalle_estados_estados
+		FOREIGN KEY (idEstadoOld)
+		REFERENCES estados (id),
+        CONSTRAINT fk_detalle_estados_estados
+		FOREIGN KEY (idEstadoOld)
+		REFERENCES estados (id)
+    );
