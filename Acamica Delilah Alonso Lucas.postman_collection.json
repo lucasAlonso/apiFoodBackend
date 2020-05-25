@@ -1,0 +1,524 @@
+{
+	"info": {
+		"_postman_id": "348863e6-7cc9-4c5f-be09-799a61f0eb6e",
+		"name": "Acamica Delilah Alonso Lucas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "USER ENDPOINTS",
+			"item": [
+				{
+					"name": "NEW USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuario\": \"picaro69\",\r\n  \"nombre\": \"Juan Alonso\",\r\n  \"apellido\": \"alonso\",\r\n  \"mail\": \"pepito@gmail.com\",\r\n  \"tel\": 4736546,\r\n  \"direccionEnvio\": \"Lamarca 3455 4to b\",\r\n  \"urlDireccionEnvio\": \"maps.google/455\",\r\n  \"plainPass\": \"a2s456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN AS USER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuario\": \"picaro69\",\r\n  \"password\": \"a2s456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/user/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN AS ADMIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"usuario\": \"admin0\",\r\n  \"password\": \"krustys\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/user/login",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ALL USERS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjoxLCJpYXQiOjE1OTAyMDc0ODZ9.P3WEpXJApfpCuq7W8XqZiO87_nTTEii0TnLA_z8ncTM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/user/all",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"user",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET OWN USER INFO",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjowLCJpYXQiOjE1OTAzNzg2MDV9.2tzxNjOM221w7oT0orY9M2UQ8qYZTybQlyIyBlsdM2w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/user/",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"user",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "PRODUCT ENDPOINTS",
+			"item": [
+				{
+					"name": "POST NEW PRODUCT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjoxLCJpYXQiOjE1OTAzODAyNzh9.4xpMXQoenX7JpRKGtN-o1C2Gc1SrtsUfe5k_OIP0Lzk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"nombre\": \"PAPAS FRITAS\",\r\n  \"descripcion\": \"PAPITAS\",\r\n  \"precio\": 250,\r\n  \"categoria\": \"FAST FOOD\",\r\n  \"img_url\": \"imagenpapas.jpg\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/products/",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET PRODUCT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjoxLCJpYXQiOjE1OTAzODAyNzh9.4xpMXQoenX7JpRKGtN-o1C2Gc1SrtsUfe5k_OIP0Lzk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/products/?nombre=Pizza%20Muzza",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"products",
+								""
+							],
+							"query": [
+								{
+									"key": "nombre",
+									"value": "Pizza%20Muzza"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ERASE PRODUCT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjoxLCJpYXQiOjE1OTAzODAyNzh9.4xpMXQoenX7JpRKGtN-o1C2Gc1SrtsUfe5k_OIP0Lzk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/products/?id=3",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"products",
+								""
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Product info",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjoxLCJpYXQiOjE1OTAzODAyNzh9.4xpMXQoenX7JpRKGtN-o1C2Gc1SrtsUfe5k_OIP0Lzk",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": 4,\r\n  \"descripcion\": \"papitas\",\r\n  \"precio\": 240\r\n \r\n  \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/products/",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"products",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "ORDER ENDPOINTS",
+			"item": [
+				{
+					"name": "CREATE NEW ORDER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjowLCJpYXQiOjE1OTAxMTkyMDN9.qFw2-30NdXOi94MsuPQGfhxh-zesbaIiQLc3fQnhRwA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"idEstado\": 1,\n\t\"idFormaPago\": 2,\n\t\"items\": [{\"idProducto\":2,\"cantProductos\":4,\"valorUnitario\":250,\"valorTotal\": 1000},{\"idProducto\":1,\"cantProductos\":7}]\n\t\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:3001/orders/",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"orders",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ORDER DETAIL",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjoxLCJpYXQiOjE1OTAyMDc0ODZ9.P3WEpXJApfpCuq7W8XqZiO87_nTTEii0TnLA_z8ncTM",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/orders/detail?idPedido=3",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"orders",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "idPedido",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET USERS ORDERS",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjoxLCJpYXQiOjE1OTAxODQyNjZ9.9FwO2C_NEm9R1rT4ByEKyul5G6teMo7VO43_fYJdQnc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/orders/user",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"orders",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MODIFY ESTADO ORDER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjoxLCJpYXQiOjE1OTAxODQyNjZ9.9FwO2C_NEm9R1rT4ByEKyul5G6teMo7VO43_fYJdQnc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\"idEstado\": 2}"
+						},
+						"url": {
+							"raw": "localhost:3001/orders/estado?idEstado=1&idPedido=3",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"orders",
+								"estado"
+							],
+							"query": [
+								{
+									"key": "idEstado",
+									"value": "1"
+								},
+								{
+									"key": "idPedido",
+									"value": "3"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET DETAIL OF OWNED ORDER",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjowLCJpYXQiOjE1OTAxMTkyMDN9.qFw2-30NdXOi94MsuPQGfhxh-zesbaIiQLc3fQnhRwA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/orders/user/detail?idPedido=1",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"orders",
+								"user",
+								"detail"
+							],
+							"query": [
+								{
+									"key": "idPedido",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET ORDERS BY AN ADMIN",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAwMSwidXN1YXJpbyI6ImFkbWluMCIsImFkbWluaXN0IjoxLCJpYXQiOjE1OTAxODQyNjZ9.9FwO2C_NEm9R1rT4ByEKyul5G6teMo7VO43_fYJdQnc",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:3001/orders",
+							"host": [
+								"localhost"
+							],
+							"port": "3001",
+							"path": [
+								"orders"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

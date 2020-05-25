@@ -1,10 +1,10 @@
 const Sequelize = require("sequelize");
 const config = require("./config.json");
 const crypto = require("crypto");
-const userList = require("./sqlQuerys/listaUsuarios.json");
-const productList = require("./sqlQuerys/listaProductos.json");
-const estados = require("./sqlQuerys/estados.json");
-const formaPago = require("./sqlQuerys/formaPago.json");
+const userList = require("./sqlQueries/listaUsuarios.json");
+const productList = require("./sqlQueries/listaProductos.json");
+const estados = require("./sqlQueries/estados.json");
+const formaPago = require("./sqlQueries/formaPago.json");
 
 db = new Sequelize("delilah", config.user, config.password, {
     host: "localhost",
@@ -17,7 +17,7 @@ let postUser = async function (newUser, administ) {
     newUser.activo = 1;
     newUser.administ = administ;
     try {
-        await db.query(config.queryPostUser, { replacements: newUser });
+        await db.query(config.bulkPostUser, { replacements: newUser });
     } catch (error) {
         console.log("Db Data error", error[0]);
     }
@@ -27,7 +27,6 @@ let postProducts = async function (newProduct) {
         await db.query(config.queryPostProduct, { replacements: newProduct });
     } catch (error) {
         console.log("Db Data error", error[0]);
-        res.status(500).send("check input data");
     }
 };
 
@@ -36,7 +35,6 @@ let postEstados = async function (newEstado) {
         await db.query("INSERT INTO estados (estado) values(:estado)", { replacements: newEstado });
     } catch (error) {
         console.log("Db Data error", error[0]);
-        res.status(500).send("check input data");
     }
 };
 
@@ -47,7 +45,6 @@ let postFormaPago = async function (newFormaPago) {
         });
     } catch (error) {
         console.log("Db Data error", error[0]);
-        res.status(500).send("check input data");
     }
 };
 const genRandomString = function (length) {

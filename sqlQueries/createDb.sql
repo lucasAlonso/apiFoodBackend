@@ -12,8 +12,8 @@ CREATE TABLE usuarios(
     urlDireccionEnvio VARCHAR (120),
     hysPass VARCHAR (128) NOT NULL,
     salt VARCHAR(16) NOT NULL,
-    activo BIT NOT NULL,
-    administ BIT NOT NULL
+    activo  BIT NOT NULL DEFAULT 1,
+    administ BIT NOT NULL DEFAULT 0
 );
 CREATE TABLE estados(
 	id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,

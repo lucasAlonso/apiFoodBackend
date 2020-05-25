@@ -55,7 +55,7 @@ const postOrderDetail = async function (orderDetail) {
 
 const getAllOrders = async function (req, res) {
     try {
-        let ordersArray = await db.query(config.queryGetAllOrders);
+        let ordersArray = await db.query(config.queryGetAllOrders, { type: db.QueryTypes.SELECT });
         res.json(ordersArray);
     } catch (error) {
         console.log("Db Data error", error[0]);
@@ -66,10 +66,7 @@ const getAllOrders = async function (req, res) {
 
 const getUserOrders = async function (req, res) {
     try {
-        let orderEstado = await db.query(config.getOrderEstado, {
-            replacements: req.body,
-            type: db.QueryTypes.SELECT,
-        });
+        console.log(req.decodedToken);
         let orderTaken = await db.query(config.queryGetUserOrders, {
             replacements: req.decodedToken,
             type: db.QueryTypes.SELECT,
@@ -139,7 +136,7 @@ const getDetail = async function (idUsuario, idPedido, isAdmin) {
             type: db.QueryTypes.SELECT,
         });
         let orderComplete = {};
-        orderComplete.Info = orderInfo;
+        orderComplete.info = orderInfo[0];
         orderComplete.itemDetails = orderDetail;
         return orderComplete;
     } catch (error) {

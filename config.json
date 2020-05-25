@@ -3,7 +3,8 @@
     "password": "passwordMuySecreto69-",
     "port": 3001,
     "firma": "dormirLaSiestaHaceBien",
-    "queryPostUser": "INSERT INTO usuarios (usuario,nombre,apellido,mail,tel,direccionEnvio,urlDireccionEnvio,hysPass,salt,activo,administ ) values(:usuario,:nombre,:apellido,:mail,:tel,:direccionEnvio,:urlDireccionEnvio,:hysPass,:salt,:activo,:administ)",
+    "queryPostUser": "INSERT INTO usuarios (usuario,nombre,apellido,mail,tel,direccionEnvio,urlDireccionEnvio,hysPass,salt ) values(:usuario,:nombre,:apellido,:mail,:tel,:direccionEnvio,:urlDireccionEnvio,:hysPass,:salt)",
+    "bulkPostUser": "INSERT INTO usuarios (usuario,nombre,apellido,mail,tel,direccionEnvio,urlDireccionEnvio,hysPass,salt,activo,administ ) values(:usuario,:nombre,:apellido,:mail,:tel,:direccionEnvio,:urlDireccionEnvio,:hysPass,:salt,:activo,:administ)",
     "queryDbUser": "SELECT * FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
     "queryAllDbUser": "SELECT id, usuario, nombre, apellido, mail,tel, direccionEnvio, urlDireccionEnvio FROM delilah.usuarios",
     "queryDbUserId": "SELECT id FROM delilah.usuarios WHERE usuario LIKE BINARY :usuario",
@@ -17,7 +18,7 @@
     "queryPostAddOrderTotal": "UPDATE pedidos SET precioTotal = :precioTotal WHERE id = :id ",
     "queryPostOrderDetail": "INSERT INTO detalle_pedidos (idPedido,idProducto,cantProductos,valorUnitario,valorTotal) values(:idPedido,:idProducto,:cantProductos,:valorUnitario,:valorTotal)",
     "queryGetAllOrders": "SELECT pedidos.id, idUsuario,usuario, mail, direccionEnvio, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id",
-    "queryGetUserOrders": "SELECT * FROM pedidos WHERE idUsuario = :idUsuario",
+    "queryGetUserOrders": "SELECT * FROM pedidos WHERE idUsuario = :id",
     "queryGetUserOrder": "SELECT pedidos.id,usuario, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id WHERE idUsuario = :idUsuario AND pedidos.id=:idPedido",
     "queryGetUserOrderDetail": "SELECT pr.nombre, dp.cantProductos, dp.valorUnitario, dp.valorTotal, pr.categoria FROM detalle_pedidos dp LEFT JOIN productos pr ON idProducto = pr.id WHERE idPedido = :idPedido",
     "queryGetOrder": "SELECT pedidos.id,usuario, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id WHERE pedidos.id=:idPedido",
@@ -25,5 +26,6 @@
     "queryGetOrderEstado": "SELECT idEstado FROM pedidos WHERE id = :idPedido",
     "queryUpdateOrderStatus": " UPDATE pedidos SET idEstado = :idEstadoNew WHERE id = :idPedido",
     "queryInsertEstadoDetail": "INSERT INTO detalle_estados_pedidos (idPedido, idEstadoOld, idEstadoNew, fechayhora) values(:idPedido,:idEstadoOld,:idEstadoNew, NOW())",
-    "queryGetOrderEstadoDetail": "SELECT es.estado, dep.fechayhora FROM detalle_estados_pedidos dep LEFT JOIN estados es ON idEstadoNew = es.id WHERE dep.idPedido = :idPedido"
+    "queryGetOrderEstadoDetail": "SELECT es.estado, dep.fechayhora FROM detalle_estados_pedidos dep LEFT JOIN estados es ON idEstadoNew = es.id WHERE dep.idPedido = :idPedido",
+    "initDb": "show databases; create database delilah; USE delilah;"
 }

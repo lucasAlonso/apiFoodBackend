@@ -1,7 +1,7 @@
-const config = require('../config.json');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const db = require('../dbConect');
+const config = require("../config.json");
+const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
+const db = require("../dbConect");
 
 let postUser = async function (req, res) {
     const newUser = req.body;
@@ -9,12 +9,12 @@ let postUser = async function (req, res) {
     if (!req.body.userDbTaken) {
         try {
             await db.query(config.queryPostUser, { replacements: newUser });
-            res.status(201).send('user Created');
+            res.status(201).send("user Created");
         } catch (error) {
-            console.log('Db Data error', error[0]);
-            res.status(500).send('check input data');
+            console.log("Db Data error", error[0]);
+            res.status(500).send("check input data");
         }
-    } else res.status(401).send('User already taken');
+    } else res.status(401).send("User already taken");
 };
 
 const userDbCheck = async function checkIfUserExistInDb(req, res) {
@@ -27,23 +27,23 @@ const userDbCheck = async function checkIfUserExistInDb(req, res) {
     req.body.userDbTaken = checked[0] ? true : false;
 };
 
-const quitIfUserExist = function returnErrorIfUserExistInDb(req, res) {
-    if (req.body.userDbTaken) {
-        res.status(401).send('Usuario existe en DB');
-    }
-};
 const loginUser = async function loginUserAndReturnJWToken(req, res) {
     if (req.isPasswordCorrect) {
         let tokenSigned = { token: signToken(req.userFromDb) };
         res.status(202).json(tokenSigned);
     } else {
-        res.status(404).send('Password Incorrecto');
+        res.status(404).send("Password Incorrecto");
     }
 };
 
-const getUser = function (req, res) {
-    const userFromDb = cropUserInfo(req.userFromDb);
-    res.status(200).json(userFromDb);
+const getUser = async function (req, res) {
+    let userFromDb = await db.query(config.queryDbUser, {
+        replacements: req.decodedToken,
+        type: db.QueryTypes.SELECT,
+        raw: true,
+    });
+    const userToReturn = cropUserInfo(userFromDb[0]);
+    res.status(200).json(userToReturn);
 };
 
 const getAllUsers = async function (req, res) {
@@ -54,8 +54,8 @@ const getAllUsers = async function (req, res) {
         });
         res.status(200).json(users);
     } catch (error) {
-        console.log('Db Data error', error[0]);
-        res.status(500).send('check input data');
+        console.log("Db Data error", error[0]);
+        res.status(500).send("check input data");
     }
 };
 

@@ -58,6 +58,8 @@ const isAdmin = function validateIfAnUserIsAdmin(req, res, next) {
 
 const validateLoginCredentials = function (req, res, next) {
     const decodificado = validateToken(req.headers.authorization.split(" ")[1]);
+    console.log("--------------------------------------------");
+    console.log(decodificado);
     if (decodificado) {
         req.decodedToken = decodificado;
         next();
