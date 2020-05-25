@@ -30,7 +30,7 @@ an excersise using node.js, express and some other well know repos
 
     nodemon server.js/
 
-6 - Ya podes empezar a testear los endpoints!
+6 - server must be runing, fetch endpoint with your fronend.
 
 ## Api documentation
 
