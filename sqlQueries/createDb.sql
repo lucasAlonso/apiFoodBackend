@@ -43,6 +43,7 @@ CREATE TABLE pedidos(
     idFormaPago INT NOT NULL,
     idUsuario INT NOT NULL, 
 	precioTotal DECIMAL(7,2) UNSIGNED,
+    activo  BIT NOT NULL DEFAULT 1,
     CONSTRAINT fk_pedidos_usuario_usuarioId
 		FOREIGN KEY (idUsuario)
 		REFERENCES usuarios (id),

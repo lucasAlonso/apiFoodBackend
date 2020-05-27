@@ -79,6 +79,15 @@ const getUserOrders = async function (req, res) {
     }
 };
 
+const deleteOrder = async function (req, res) {
+    try {
+        await db.query(config.queryDeleteOrder, { replacements: req.query });
+        res.status(204).send("Order Deleted");
+    } catch (error) {
+        console.log("Db Data error", error[0]);
+        res.status(500).send("check input data");
+    }
+};
 const updateStatus = async function (req, res) {
     try {
         req.query.idEstadoNew = req.query.idEstado;
@@ -152,4 +161,5 @@ module.exports = {
     getUserOrderDetail,
     getOrderDetailAdmin,
     updateStatus,
+    deleteOrder,
 };

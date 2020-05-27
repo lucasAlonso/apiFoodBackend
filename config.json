@@ -17,15 +17,15 @@
     "queryGetAlicuota": "SELECT alicuota FROM formaPago WHERE id = :idFormaPago",
     "queryPostAddOrderTotal": "UPDATE pedidos SET precioTotal = :precioTotal WHERE id = :id ",
     "queryPostOrderDetail": "INSERT INTO detalle_pedidos (idPedido,idProducto,cantProductos,valorUnitario,valorTotal) values(:idPedido,:idProducto,:cantProductos,:valorUnitario,:valorTotal)",
-    "queryGetAllOrders": "SELECT pedidos.id, idUsuario,usuario, mail, direccionEnvio, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id",
-    "queryGetUserOrders": "SELECT * FROM pedidos WHERE idUsuario = :id",
-    "queryGetUserOrder": "SELECT pedidos.id,usuario, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id WHERE idUsuario = :idUsuario AND pedidos.id=:idPedido",
+    "queryGetAllOrders": "SELECT pedidos.id, idUsuario,usuario, mail, direccionEnvio, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id WHERE pedidos.activo = 1",
+    "queryGetUserOrders": "SELECT * FROM pedidos WHERE idUsuario = :id AND pedidos.activo = 1",
+    "queryGetUserOrder": "SELECT pedidos.id,usuario, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id WHERE idUsuario = :idUsuario AND pedidos.id=:idPedido AND pedidos.activo = 1",
     "queryGetUserOrderDetail": "SELECT pr.nombre, dp.cantProductos, dp.valorUnitario, dp.valorTotal, pr.categoria FROM detalle_pedidos dp LEFT JOIN productos pr ON idProducto = pr.id WHERE idPedido = :idPedido",
-    "queryGetOrder": "SELECT pedidos.id,usuario, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id WHERE pedidos.id=:idPedido",
+    "queryGetOrder": "SELECT pedidos.id,usuario, precioTotal, estado, descrip as formaPago, alicuota FROM pedidos LEFT JOIN formaPago fp ON idFormaPago = fp.id LEFT JOIN estados es ON idEstado = es.id LEFT JOIN usuarios us ON idUsuario = us.id WHERE pedidos.id=:idPedido AND pedidos.activo = 1",
     "queryGetOrderDetail": "SELECT pr.nombre, dp.cantProductos, dp.valorUnitario, dp.valorTotal, pr.categoria FROM detalle_pedidos dp LEFT JOIN productos pr ON idProducto = pr.id WHERE idPedido = :idPedido",
-    "queryGetOrderEstado": "SELECT idEstado FROM pedidos WHERE id = :idPedido",
+    "queryGetOrderEstado": "SELECT idEstado FROM pedidos WHERE id = :idPedido AND pedidos.activo = 1",
     "queryUpdateOrderStatus": " UPDATE pedidos SET idEstado = :idEstadoNew WHERE id = :idPedido",
     "queryInsertEstadoDetail": "INSERT INTO detalle_estados_pedidos (idPedido, idEstadoOld, idEstadoNew, fechayhora) values(:idPedido,:idEstadoOld,:idEstadoNew, NOW())",
     "queryGetOrderEstadoDetail": "SELECT es.estado, dep.fechayhora FROM detalle_estados_pedidos dep LEFT JOIN estados es ON idEstadoNew = es.id WHERE dep.idPedido = :idPedido",
-    "initDb": "show databases; create database delilah; USE delilah;"
+    "queryDeleteOrder": "UPDATE pedidos SET activo = 0 WHERE id = :id "
 }

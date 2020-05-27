@@ -9,5 +9,6 @@ api.get("/detail", middlewares.validateLoginCredentials, middlewares.isAdmin, or
 api.get("/user", middlewares.validateLoginCredentials, ordersController.getUserOrders);
 api.get("/user/detail", middlewares.validateLoginCredentials, ordersController.getUserOrderDetail);
 api.patch("/estado", middlewares.validateLoginCredentials, middlewares.isAdmin, ordersController.updateStatus);
+api.delete("/", middlewares.validateLoginCredentials, middlewares.isAdmin, ordersController.deleteOrder);
 
 module.exports = api;
